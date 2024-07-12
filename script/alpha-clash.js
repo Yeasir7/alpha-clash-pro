@@ -17,29 +17,42 @@ function handleKeyboardButtonPress(event){
     // console.log('current alphabet',expectedAlphabet)
 
     if(playerPressed === expectedAlphabet){
-        console.log('you got a point')
 
-        const currentScoreElement = document.getElementById('current-score')
-        const currentScoreText = currentScoreElement.innerText
-        const currentScore = parseInt(currentScoreText)
+        const currentScore = getTextElementValueById('current-score')
+        const updateScore = currentScore + 1
+        setTextElementValueById('current-score', updateScore)
+        
+        // console.log('you got a point')
+        // const currentScoreElement = document.getElementById('current-score')
+        // const currentScoreText = currentScoreElement.innerText
+        // const currentScore = parseInt(currentScoreText)
 
-        const newScore = currentScore + 1
+        // const newScore = currentScore + 1
 
-        currentScoreElement.innerText = newScore
+        // currentScoreElement.innerText = newScore
 
         removeBackgroundColorById(expectedAlphabet)
         continueGame()
     }
     else{
-        console.log('you loss a point')
 
-        const currentLifeElement = document.getElementById('current-life')
-        const currentLifeText = currentLifeElement.innerText
-        const currentLife = parseInt(currentLifeText)
+        const currentLife = getTextElementValueById('current-life')
+        const updateLife = currentLife - 1
+        setTextElementValueById('current-life', updateLife)
 
-        const newScore = currentLife - 1
+        if(updateLife === 0){
+            gameOver()
+        }
 
-        currentLifeElement.innerText = newScore
+        // console.log('you loss a point')
+
+        // const currentLifeElement = document.getElementById('current-life')
+        // const currentLifeText = currentLifeElement.innerText
+        // const currentLife = parseInt(currentLifeText)
+
+        // const newScore = currentLife - 1
+
+        // currentLifeElement.innerText = newScore
     }
 }
 document.addEventListener('keyup', handleKeyboardButtonPress)
@@ -56,7 +69,19 @@ function continueGame(){
 }
 
 function play(){
+    // hide everything show only the playground
     hideElementById('home-screen');
+    hideElementById('final-score')
     showElementById('play-ground');
+
+    // reset score and life
+    setTextElementValueById('current-life', 5)
+    setTextElementValueById('current-score', 0)
+
     continueGame();
+}
+
+function gameOver(){
+    hideElementById('play-ground')
+    showElementById('final-score')
 }
